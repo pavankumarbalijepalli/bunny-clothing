@@ -20,7 +20,6 @@ const firebaseConfig = {
 };
 
 const firebaseApp = initializeApp(firebaseConfig);
-
 const provider = new GoogleAuthProvider();
 provider.setCustomParameters({
   prompt: "select_account",
@@ -28,14 +27,13 @@ provider.setCustomParameters({
 
 export const auth = getAuth();
 export const signInWithGooglePopup = () => signInWithPopup(auth, provider);
-
 export const db = getFirestore();
 
 export const createUserDocumentFromAuth = async (userAuth) => {
   // Will send a document wrt userAuth, even if we don't have a "users" collection.
   // This has so much information about user. Name, Email, Photo (if loginWithGoogle)
   const userDocRef = doc(db, "users", userAuth.uid);
-  
+
   //  Will check if the reference provided by `doc` is present in the "users" collection.
   // We need this for only one reason, that is `.exists()` function.
   // This will tell us if user exists, so we can perform operations based on that.
@@ -53,5 +51,7 @@ export const createUserDocumentFromAuth = async (userAuth) => {
       console.log("error creating user", error.message);
     }
   }
+
+  // If user exists.
   return userDocRef;
 };
